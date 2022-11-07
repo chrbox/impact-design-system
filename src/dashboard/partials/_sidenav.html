@@ -1,0 +1,61 @@
+<nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
+    <div class="scrollbar-inner">
+      <!-- Brand -->
+      <div class="sidenav-header  d-flex  align-items-center">
+        <a class="navbar-brand" href="{$urlAdmidio}">
+          <img src="{$urlTheme}/templates/dashboard/assets/img/brand/velosg.svg" height="40" class="navbar-brand-img" alt="...">
+        </a>
+        <div class=" ml-auto ">
+          <!-- Sidenav toggler -->
+          <div class="sidenav-toggler d-none d-xl-block" data-action="sidenav-unpin" data-target="#sidenav-main">
+            <div class="sidenav-toggler-inner">
+              <i class="sidenav-toggler-line"></i>
+              <i class="sidenav-toggler-line"></i>
+              <i class="sidenav-toggler-line"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="navbar-inner">
+        <!-- Collapse -->
+        <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+          <!-- Nav items -->
+          <ul class="navbar-nav">
+            {foreach $gMenu as $menuNode}
+            {if $menuNode->getTextId() == 'modules'}
+              {if count($menuNode->getEntries()) > 0}
+                {foreach $menuNode->getEntries() as $entry}
+                <li class="nav-item {if $headline|truncate:4:true == $entry['men_name']|truncate:4:true}active{/if}">
+                  <a class="nav-link" href="{$entry['men_url']}">
+                    <i class="fas {$entry['men_icon']}"></i>
+                    <span class="nav-link-text">{$entry['men_name']}</span>
+                    {if $entry['men_name_intern'] == 'mail' && $messageCountBadge != 0}
+                      <span class="badge badge-danger ml-1">{$messageCountBadge}</span>
+                    {/if}
+                  </a>
+                </li>
+                {/foreach}
+              {/if}
+            {/if}
+            {if $menuNode->getTextId() == 'administration'}
+              {if count($menuNode->getEntries()) > 0  }
+                <hr class="my-3">
+                <h6 class="navbar-heading pl-4 text-muted">
+                  <span class="docs-normal">{$l10n->get('SYS_ADMINISTRATION')}</span>
+                </h6>
+                {foreach $menuNode->getEntries() as $entry}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{$entry['men_url']}">
+                      <i class="fas {$entry['men_icon']}"></i>
+                        <span class="nav-link-text">{$entry['men_name']}</span>
+                    </a>
+                  </li>
+                {/foreach}
+              {/if}
+              {/if}
+            {/foreach}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>

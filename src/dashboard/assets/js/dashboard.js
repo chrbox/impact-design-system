@@ -641,7 +641,7 @@ var NavbarCollapse = (function() {
 // Popover
 //
 
-'use strict';
+/* 'use strict';
 
 var Popover = (function() {
 
@@ -675,7 +675,7 @@ var Popover = (function() {
 		});
 	}
 
-})();
+})(); */
 
 //
 // Scroll to (anchor links)
@@ -726,7 +726,7 @@ var ScrollTo = (function() {
 // Tooltip
 //
 
-'use strict';
+/* 'use strict';
 
 var Tooltip = (function() {
 
@@ -748,7 +748,7 @@ var Tooltip = (function() {
 		init();
 	}
 
-})();
+})(); */
 
 //
 // Checklist
@@ -809,7 +809,7 @@ var Checklist = (function() {
 // Form control
 //
 
-'use strict';
+/* 'use strict';
 
 var FormControl = (function() {
 
@@ -834,7 +834,7 @@ var FormControl = (function() {
 	}
 
 })();
-
+ */
 //
 // Google maps
 //
@@ -1591,7 +1591,7 @@ if($('[data-toggle="widget-calendar"]')[0]) {
 // Datatable
 //
 
-'use strict';
+/* 'use strict';
 
 var DatatableBasic = (function() {
 
@@ -1635,14 +1635,14 @@ var DatatableBasic = (function() {
 		init($dtBasic);
 	}
 
-})();
+})(); */
 
 
 //
 // Buttons Datatable
 //
 
-var DatatableButtons = (function() {
+/* var DatatableButtons = (function() {
 
 	// Variables
 
@@ -1683,7 +1683,7 @@ var DatatableButtons = (function() {
 			$('.dt-buttons .btn').removeClass('btn-secondary').addClass('btn-sm btn-default');
 	    }).DataTable(options);
 	}
-
+ */
 
 	// Events
 

@@ -5,50 +5,71 @@
 <meta name="title" content="@@title">
 
 <!-- Canonical SEO -->
-<link rel="canonical" href="https://www.creative-tim.com/product/impact-design-system" />
+<link rel="canonical" href="https://www.velosolingen.de" />
 
 <!--  Social tags      -->
-<meta name="keywords" content="impact design system, design system, login, form, table, tables, calendar, card, cards, navbar, modal, icons, icons, map, chat, carousel, menu, datepicker, gallery, slider, date, sidebar, social, dropdown, search, tab, nav, footer, date picker, forms, tabs, time, button, select, input, timeline, cart, car, fullcalendar, about us, invoice, account, chat, log in, blog, profile, portfolio, landing page, ecommerce, shop, landing, register, app, contact, one page, sign up, signup, store, bootstrap 4, bootstrap4, dashboard, bootstrap 4 dashboard, bootstrap 4 design, bootstrap 4 system, bootstrap 4, bootstrap 4 uit kit, bootstrap 4 kit, impact, impact ui kit, creative tim, html kit, html css template, web template, bootstrap, bootstrap 4, css3 template, frontend, responsive bootstrap template, bootstrap ui kit, responsive ui kit, impact dashboard">
-<meta name="description" content="Kick-Start Your Development With An Awesome Design System carefully designed for your online business showcase. It comes as a complete solution, with front pages and dashboard pages included.">
-
-<!-- Schema.org markup for Google+ -->
-<meta itemprop="name" content="Impact Design System by Creative Tim">
-<meta itemprop="description" content="Kick-Start Your Development With An Awesome Design System carefully designed for your online business showcase. It comes as a complete solution, with front pages and dashboard pages included.">
-
-<meta itemprop="image" content="https://s3.amazonaws.com/creativetim_bucket/products/296/original/opt_impact_thumbnail.jpg">
-
-<!-- Twitter Card data -->
-<meta name="twitter:card" content="product">
-<meta name="twitter:site" content="@creativetim">
-<meta name="twitter:title" content="Impact Design System by Creative Tim">
-
-<meta name="twitter:description" content="Kick-Start Your Development With An Awesome Design System carefully designed for your online business showcase. It comes as a complete solution, with front pages and dashboard pages included.">
-<meta name="twitter:creator" content="@creativetim">
-<meta name="twitter:image" content="https://s3.amazonaws.com/creativetim_bucket/products/296/original/opt_impact_thumbnail.jpg">
-
-
-<!-- Open Graph data -->
-<meta property="fb:app_id" content="655968634437471">
-<meta property="og:title" content="Impact Design System by Creative Tim" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://demos.creative-tim.com/impact-design-system/" />
-<meta property="og:image" content="https://s3.amazonaws.com/creativetim_bucket/products/296/original/opt_impact_thumbnail.jpg"/>
-<meta property="og:description" content="Kick-Start Your Development With An Awesome Design System carefully designed for your online business showcase. It comes as a complete solution, with front pages and dashboard pages included." />
-<meta property="og:site_name" content="Creative Tim" />
+<meta name="keywords" content="">
+<meta name="description" content="">
 
 <!-- Favicon -->
-<link rel="icon" href="@@path/assets/img/favicon/favicon.png" type="image/png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=E6wKQr9zvo">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=E6wKQr9zvo">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=E6wKQr9zvo">
+<link rel="manifest" href="/site.webmanifest?v=E6wKQr9zvo">
+<link rel="mask-icon" href="/safari-pinned-tab.svg?v=E6wKQr9zvo" color="#5a5c69">
+<link rel="shortcut icon" href="/favicon.ico?v=E6wKQr9zvo">
+<meta name="apple-mobile-web-app-title" content="Velo Solingen e.V.">
+<meta name="application-name" content="Velo Solingen e.V.">
+<meta name="msapplication-TileColor" content="#5a5c69">
+<meta name="theme-color" content="#5a5c69">
 
 <!-- Fontawesome -->
 <link type="text/css" href="@@path_common/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
 
-<!-- Nucleo icons -->
-<link rel="stylesheet" href="@@path_common/dashboard/assets/vendor/nucleo/css/nucleo.css" type="text/css">
-
 <!-- Prism -->
 <link type="text/css" href="@@path_common/vendor/prismjs/themes/prism.css" rel="stylesheet">
+
+<!-- Fancybox -->
+<link type="text/css" href="@@path/assets/css/vendor/jquery-fancybox/jquery.fancybox.min.css" rel="stylesheet">
 
 <!-- Front CSS -->
 <link type="text/css" href="@@path/css/front.css" rel="stylesheet">
 
-@@include('./_tracking.html')
+<script src="@@path_common/vendor/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="{$urlAdmidio}/adm_program/system/js/common_functions.js"></script>
+
+  {* Additional header informations that will be displayed if the header was set through $page->addHeader() *}
+  {$additionalHeaderData}
+  <script type="text/javascript">
+        var gRootPath  = "{$urlAdmidio}";
+        var gThemePath = "{$urlTheme}";
+
+        {$javascriptContent}
+
+        // add javascript code to page that will be executed after page is fully loaded
+        $(function() {
+            $("[data-toggle=popover]").popover();
+            $("[data-toggle=tooltip]").tooltip();
+
+            {$javascriptContentExecuteAtPageLoad}
+
+            // function to handle modal window and load data from url
+            $('.openPopup').on('click',function(){
+                $('.modal-dialog').attr('class', 'modal-dialog ' + $(this).attr('data-class'));
+                $('.modal-content').load($(this).attr('data-href'),function(){
+                    $('#admidio-modal').modal({
+                        show:true
+                    });
+                });
+            });
+
+            // remove data from modal if modal is closed
+            $("body").on("hidden.bs.modal", ".modal", function() {
+                $(this).removeData("bs.modal");
+            });
+        });
+    </script>
+    {* If activated in the Admidio settings a cookie note script will be integrated and show a cookie message that the user must accept *}
+    {if $cookieNote}
+        {include file="cookie_note.tpl"}
+    {/if}

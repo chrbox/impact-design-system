@@ -3,6 +3,7 @@
  */
 
 const autoprefixer = require('gulp-autoprefixer');
+const php = require('gulp-connect-php');
 const browserSync = require('browser-sync').create();
 const cleanCss = require('gulp-clean-css');
 const del = require('del');
@@ -14,11 +15,19 @@ const sass = require('gulp-sass');
 const wait = require('gulp-wait');
 const sourcemaps = require('gulp-sourcemaps');
 const fileinclude = require('gulp-file-include');
+const { sync } = require('del');
 
 // Define paths
 const paths = {
+    admidio: {
+        base: '../'
+        },
     dist: {
         base: './dist/',
+        common: {
+            assets: './dist/common/assets',
+            scss:'./src/common/scss'
+        },
         front: {
             base: './dist/front/',
             css: './dist/front/css',
@@ -39,6 +48,10 @@ const paths = {
     },
     dev: {
         base: './html&css/',
+        common: {
+            assets: './html&css/common/assets',
+            scss:'./src/common/scss'
+        },
         front: {
             base: './html&css/front/',
             css: './html&css/front/css',
@@ -55,6 +68,11 @@ const paths = {
             partials: './html&css/dashboard/partials/',
             scss: './html&css/dashboard/scss',
         },
+        ecards: {
+            base: './html&css/ecards_templates',
+            html: './html&css/ecards_templates/html/*.tpl',
+            partials: './html&css/ecards_templates/partials'
+        },
         vendor: './html&css/vendor'
     },
     base: {
@@ -62,11 +80,16 @@ const paths = {
         node: './node_modules'
     },
     src: {
-        html: './src/*.html',
+        base: './src/',
+        html: './src/*.tpl',
+        common: {
+            assets: './src/common/assets/**/*.*',
+            scss:'./src/common/scss'
+        },
         front: {
             base: './src/front/',
             css: './src/front/css',
-            html: './src/front/pages/**/*.html',
+            html: './src/front/pages/**/*.tpl',
             assets: './src/front/assets/**/*.*',
             partials: './src/front/partials',
             scss: './src/front/scss',
@@ -74,16 +97,24 @@ const paths = {
         dashboard: {
             base: './src/dashboard/',
             css: './src/dashboard/css',
-            html: './src/dashboard/pages/**/*.html',
+            html: './src/dashboard/pages/**/*.tpl',
             assets: './src/dashboard/assets/**/*.*',
             partials: './src/dashboard/partials',
             scss: './src/dashboard/scss',
+        },
+        ecards: {
+            base: './src/ecard_templates',
+            html: './src/ecard_templates/*.tpl',
+            partials: './src/ecard_templates/partials',
         },
         node_modules: './node_modules/',
         vendor: './vendor'
     },
     temp: {
         base: './.temp/',
+        common: {
+            assets: './.temp/common/assets'
+        },
         front: {
             base: './.temp/front',
             css: './.temp/front/css',
@@ -95,9 +126,31 @@ const paths = {
             css: './.temp/dashboard/css',
             html: './.temp/dashboard/pages',
             assets: './.temp/dashboard/assets',
-            
         },
-        vendor: './.temp/vendor'
+        vendor: './.temp/common/vendor'
+    },
+    admtemp: {
+        base: '../adm_themes/ivelo_dev/',
+        html: '../adm_themes/ivelo_dev/templates',
+        common: {
+            assets: '../adm_themes/ivelo_dev/templates/common/assets'
+        },
+        front: {
+            base: '../adm_themes/ivelo_dev/templates/front',
+            css: '../adm_themes/ivelo_dev/templates/front/css',
+            html: '../adm_themes/ivelo_dev/templates',
+            assets: '../adm_themes/ivelo_dev/templates/front/assets',
+        },
+        dashboard: {
+            base: '../adm_themes/ivelo_dev/templates/dashboard',
+            css: '../adm_themes/ivelo_dev/templates/dashboard/css',
+            html: '../adm_themes/ivelo_dev/templates',
+            assets: '../adm_themes/ivelo_dev/templates/dashboard/assets',
+        },
+        ecards: {
+            base: '../adm_my_files/ecard_templates'
+        },
+        vendor: '../adm_themes/ivelo_dev/templates/common/vendor'
     }
 };
 
@@ -111,7 +164,7 @@ gulp.task('scss-front', function () {
             overrideBrowserslist: ['> 1%']
         }))
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest(paths.temp.front.css))
+        .pipe(gulp.dest(paths.admtemp.front.css))
         .pipe(browserSync.stream());
 });
 
@@ -124,7 +177,7 @@ gulp.task('scss-dashboard', function () {
             overrideBrowserslist: ['> 1%']
         }))
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest(paths.temp.dashboard.css))
+        .pipe(gulp.dest(paths.admtemp.dashboard.css))
         .pipe(browserSync.stream());
 });
 
@@ -136,7 +189,7 @@ gulp.task('html-front', function () {
             prefix: '@@',
             basepath: paths.src.front.partials
         }))
-        .pipe(gulp.dest(paths.temp.front.html))
+        .pipe(gulp.dest(paths.admtemp.front.html))
         .pipe(browserSync.stream());
 });
 
@@ -146,53 +199,87 @@ gulp.task('html-dashboard', function () {
             prefix: '@@',
             basepath: paths.src.dashboard.partials
         }))
-        .pipe(gulp.dest(paths.temp.dashboard.html))
+        .pipe(gulp.dest(paths.admtemp.dashboard.html))
         .pipe(browserSync.stream());
 });
 
-gulp.task('html-base', function () {
+gulp.task('html-ecards', function () {
+    return gulp.src([paths.src.ecards.html])
+        .pipe(fileinclude({
+            prefix: '@@',
+            basepath: paths.src.ecards.partials
+        }))
+        .pipe(gulp.dest(paths.admtemp.ecards.base))
+        .pipe(browserSync.stream());
+});
+
+gulp.task('tpl-base', function () {
     return gulp.src([paths.src.html])
         .pipe(fileinclude({
             prefix: '@@',
             basepath: paths.src.front.partials
         }))
-        .pipe(gulp.dest(paths.temp.base))
+        .pipe(gulp.dest(paths.admtemp.html))
         .pipe(browserSync.stream());
 });
 
-gulp.task('html', gulp.series('html-front', 'html-dashboard', 'html-base'));
+gulp.task('html-base', function () {
+    return gulp.src([paths.src.base + 'index.html'])
+        .pipe(gulp.dest(paths.admtemp.base))
+        .pipe(browserSync.stream());
+});
+
+gulp.task('clean:templates-compile', function() {
+    return del('../adm_my_files/templates/compile/*.*', {force: true});
+});
+
+gulp.task('html', gulp.series('clean:templates-compile', 'html-front', 'html-dashboard', 'html-ecards', 'tpl-base', 'html-base'));
+
+gulp.task('assets-common', function () {
+    return gulp.src([paths.src.common.assets])
+        .pipe(gulp.dest(paths.admtemp.common.assets))
+        .pipe(browserSync.stream());
+});
 
 gulp.task('assets-front', function () {
     return gulp.src([paths.src.front.assets])
-        .pipe(gulp.dest(paths.temp.front.assets))
+        .pipe(gulp.dest(paths.admtemp.front.assets))
         .pipe(browserSync.stream());
 });
 
 gulp.task('assets-dashboard', function () {
     return gulp.src([paths.src.dashboard.assets])
-        .pipe(gulp.dest(paths.temp.dashboard.assets))
+        .pipe(gulp.dest(paths.admtemp.dashboard.assets))
         .pipe(browserSync.stream());
 });
 
-gulp.task('assets', gulp.series('assets-front', 'assets-dashboard'));
+gulp.task('assets', gulp.series('assets-common', 'assets-front', 'assets-dashboard'));
 
 gulp.task('vendor', function() {
     return gulp.src(npmDist(), { base: paths.src.node_modules })
-      .pipe(gulp.dest(paths.temp.vendor));
+      .pipe(gulp.dest(paths.admtemp.vendor));
 });
 
 gulp.task('serve', gulp.series('scss', 'html', 'assets', 'vendor', function() {
-    browserSync.init({
-        server: paths.temp.base
+    php.server({
+        // a standalone PHP server that browsersync connects to via proxy
+        base: paths.admidio.base,
+        port: 8000,
+        keepalive: true
+    }, function (){    
+        browserSync.init({
+            proxy: "127.0.0.1:8000"
+        });
     });
+    gulp.watch([paths.src.front.scss + '/front/**/*.scss', '/**/*.scss', paths.src.front.scss + '/front.scss'], gulp.series('scss-front'));
+    gulp.watch([paths.src.dashboard.scss + '/**/*.scss', '/**/*.scss', paths.src.dashboard.scss + '/dashboard.scss'], gulp.series('scss-dashboard'));
 
-    gulp.watch([paths.src.front.scss + '/front/**/*.scss', paths.src.front.scss + '/front.scss'], gulp.series('scss-front'));
-    gulp.watch([paths.src.dashboard.scss + '/**/*.scss', paths.src.dashboard.scss + '/dashboard.scss'], gulp.series('scss-dashboard'));
+    gulp.watch([paths.src.html], gulp.series('tpl-base'));
+    gulp.watch([paths.src.ecards.html], gulp.series('html-ecards'));
+    gulp.watch([paths.src.front.html, paths.src.front.base + '*.tpl', paths.src.front.partials + '/**/*.html'], gulp.series('html-front', 'html'));
+    gulp.watch([paths.src.dashboard.html, paths.src.dashboard.base + '*.tpl', paths.src.dashboard.partials + '/**/*.html'], gulp.series('html-dashboard', 'html'));
 
-    gulp.watch([paths.src.html], gulp.series('html-base'));
-    gulp.watch([paths.src.front.html, paths.src.front.base + '*.html', paths.src.front.partials + '/**/*.html'], gulp.series('html-front', 'html'));
-    gulp.watch([paths.src.dashboard.html, paths.src.dashboard.base + '*.html', paths.src.dashboard.partials + '/**/*.html'], gulp.series('html-dashboard', 'html'));
-
+    gulp.watch([paths.src.common.assets], gulp.series('assets-common'));
     gulp.watch([paths.src.front.assets], gulp.series('assets-front'));
     gulp.watch([paths.src.dashboard.assets], gulp.series('assets-dashboard'));
 
@@ -383,6 +470,10 @@ gulp.task('copy-base:dev:html', function () {
 gulp.task('copy:dev:html', gulp.series('copy-front:dev:html', 'copy-dashboard:dev:html', 'copy-base:dev:html'));
 
 // Copy assets
+gulp.task('copy-common:dist:assets', function () {
+    return gulp.src(paths.src.common.assets)
+        .pipe(gulp.dest(paths.dist.common.assets))
+});
 
 gulp.task('copy-front:dist:assets', function () {
     return gulp.src(paths.src.front.assets)
@@ -394,7 +485,12 @@ gulp.task('copy-dashboard:dist:assets', function () {
         .pipe(gulp.dest(paths.dist.dashboard.assets))
 });
 
-gulp.task('copy:dist:assets', gulp.series('copy-front:dist:assets', 'copy-dashboard:dist:assets'));
+gulp.task('copy:dist:assets', gulp.series('copy-common:dist:assets', 'copy-front:dist:assets', 'copy-dashboard:dist:assets'));
+
+gulp.task('copy-common:dev:assets', function () {
+    return gulp.src(paths.src.common.assets)
+        .pipe(gulp.dest(paths.dev.common.assets))
+});
 
 gulp.task('copy-front:dev:assets', function () {
     return gulp.src(paths.src.front.assets)
@@ -406,7 +502,7 @@ gulp.task('copy-dashboard:dev:assets', function () {
         .pipe(gulp.dest(paths.dev.dashboard.assets))
 });
 
-gulp.task('copy:dev:assets', gulp.series('copy-front:dev:assets', 'copy-dashboard:dev:assets'));
+gulp.task('copy:dev:assets', gulp.series('copy-common:dev:assets', 'copy-front:dev:assets', 'copy-dashboard:dev:assets'));
 
 // Copy node_modules
 

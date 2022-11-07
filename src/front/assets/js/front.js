@@ -278,5 +278,126 @@ $(document).ready(function () {
 
     $('.current-year').text(new Date().getFullYear());
 
+    $("body").on("click", "[data-action]", function(e) {
+
+        e.preventDefault();
+
+        var $this = $(this);
+        var action = $this.data('action');
+        var target = $this.data('target');
+
+
+        // Manage actions
+
+        switch (action) {
+            case 'sidenav-pin':
+                pinSidenav();
+            break;
+
+            case 'sidenav-unpin':
+                unpinSidenav();
+            break;
+
+            case 'search-show':
+                target = $this.data('target');
+                $('body').removeClass('g-navbar-search-show').addClass('g-navbar-search-showing');
+
+                setTimeout(function() {
+                    $('body').removeClass('g-navbar-search-showing').addClass('g-navbar-search-show');
+                }, 150);
+
+                setTimeout(function() {
+                    $('body').addClass('g-navbar-search-shown');
+                }, 300)
+            break;
+
+            case 'search-close':
+                target = $this.data('target');
+                $('body').removeClass('g-navbar-search-shown');
+
+                setTimeout(function() {
+                    $('body').removeClass('g-navbar-search-show').addClass('g-navbar-search-hiding');
+                }, 150);
+
+                setTimeout(function() {
+                    $('body').removeClass('g-navbar-search-hiding').addClass('g-navbar-search-hidden');
+                }, 300);
+
+                setTimeout(function() {
+                    $('body').removeClass('g-navbar-search-hidden');
+                }, 500);
+            break;
+        }
+    })
+
+    
+  
+    
 });
 
+$('#newsticker').newsTicker({
+    row_height: 36,
+    max_rows: 1,
+    speed: 500,
+    direction: 'up',
+    duration: 6000,
+    autostart: 1,
+    pauseOnHover: 1
+});
+
+$('.breadcrumb').addClass('breadcrumb-primary breadcrumb-text-light');
+$("[id^=div_image_]>a").attr("data-fancybox", "gallery");
+$("[id^=div_image_]>a").attr("data-gallery", "");
+$("[id^=div_image_]>a").attr("data-toggle", "");
+$.fancybox.defaults.loop = true;
+
+var cat_id = $('#cat_id').find(":selected").text();
+$('.admidio-filter-status').text(' '+$('[for="cat_id"]').text()+' = '+cat_id);
+$('#admidio-filter').append($('#navbar_filter form'));
+$('.navbar-filter').remove();
+$('#admidio-filter').on('shown.bs.collapse', function () {
+    $('.admidio-filter-status').addClass('d-none');
+});
+$('#admidio-filter').on('hidden.bs.collapse', function () {
+    $('.admidio-filter-status').removeClass('d-none');
+})
+
+$('.admidio-blog').each (function () {
+    $(this).wrap('<div class="admidio-blog-post card card-sm card-body shadow-sm border-soft"/>').removeClass('card');
+    $(this).find('.card-header').replaceWith(function() {
+        var id = '#'+$('.admidio-blog').attr('id');
+        return $('<a/>', {
+            html: this.innerHTML,
+            href: id
+        });
+    });
+    $(this).find('.dropdown').addClass('blog-menu d-flex flex-row btn-group').removeClass('dropdown').appendTo($(this).find('.card-footer'));
+    $(this).find('.dropdown-menu a').each(function() {
+        $(this).parent().before(this);
+        $(this).removeClass('dropdown-item');
+        $(this).addClass('btn btn-icon btn-sm btn-secondary').find('i').wrap('<span class="btn-inner--icon"/>').attr('title', $(this).text()).tooltip();
+        $(this).contents().filter(function(){
+            return this.nodeType === 3;
+        }).remove();
+    })
+    $(this).find('.dropdown-toggle').remove();
+    $(this).find('.dropdown-menu').remove();
+})
+
+$('.admidio-card').each (function () {
+    $(this).append('<div class="card-footer"/>')
+    $(this).find('.dropdown').addClass('photo-menu d-flex flex-row btn-group').removeClass('dropdown').appendTo($(this).find('.card-footer'));
+    $(this).find('.dropdown-menu a').each(function() {
+        $(this).parent().before(this);
+        $(this).removeClass('dropdown-item');
+        $(this).addClass('btn btn-icon btn-sm btn-secondary').find('i').wrap('<span class="btn-inner--icon"/>').attr('title', $(this).text()).tooltip();
+        $(this).contents().filter(function(){
+            return this.nodeType === 3;
+        }).remove();
+    })
+    $(this).find('[data-toggle=dropdown').remove();
+    $(this).find('.dropdown-menu').remove();
+})
+
+
+$('#dropdownMenuButton').attr('data-offset', '10,10')

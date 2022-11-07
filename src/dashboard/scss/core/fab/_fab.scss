@@ -1,0 +1,26 @@
+#btn_save {
+   width: 56px;
+   height: 56px;
+   background-color: $secondary;
+   border-radius: 50%;
+   border: none;
+   box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
+   font-size: 25px;
+   padding: 10px;
+   transition: all 0.1s ease-in-out;
+   text-align: center;
+   margin: 25px;
+   position: fixed;
+   right: 0px;
+   bottom: 0px;
+}
+
+#btn_save i {
+   padding-right: 0px;
+}
+ 
+#btn_save:hover {
+   box-shadow: 0 6px 14px 0 #666;
+   transform: scale(1.05);
+   background-color: darken($secondary, 7.5%);
+}

@@ -1,0 +1,214 @@
+/* add 5px distance to all icons within a icon text combination */
+.admidio-icon-chain, .nav-link .fas, .alert .fas,
+.admidio-profile-user-right .fas, .checkbox .fas, input[type="radio"],
+label img, .form-control-static img, .admidio-icon-link .fas {
+    margin-right: 5px;
+}
+
+/***********************************/
+/* Cards */
+/***********************************/
+
+.admidio-blog, .admidio-field-group {
+    border: none;
+    max-width: 1000px;
+}
+
+.admidio-blog .card-header, .admidio-blog .card-body, .admidio-blog .card-footer,
+.admidio-field-group .card-header, .admidio-field-group .card-body, .admidio-field-group .card-footer {
+    border: none;
+    background-color: $card-bg;
+}
+
+.card-header {
+    font-weight: bold;
+    font-size: 150%;
+}
+
+.card-header .fas, .card-header .fab {
+    margin-right: 10px;
+}
+
+.admidio-blog .card-footer {
+    font-size: 80%;
+}
+
+.admidio-field-group .list-group-item {
+    border: none;
+    background-color: #eeeeee;
+    padding: 1rem;
+    margin-bottom: 1px;
+}
+
+.admidio-field-group .list-group-item .list-group-item {
+    padding: 0px;
+}
+
+.card .admidio-info-created-edited {
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+.card-footer .admidio-info-created-edited {
+    font-size: 100% !important;
+}
+
+.admidio-info-created {
+    display: block;
+}
+
+.admidio-blog-comment .card-header, .admidio-blog-comment .card-body, .admidio-blog-comment .card-footer {
+    background-color: #dddddd;
+}
+
+.admidio-blog-comment .card-header {
+    font-size: 120%;
+    padding-bottom: 0px;
+}
+
+.admidio-blog-comment {
+    margin-bottom: 20px;
+}
+
+.admidio-blog .card-body > .btn {
+    margin-top: 20px;
+    display: block;
+    text-align: left;
+}
+
+.admidio-blog .dropdown-menu {
+    top: 32px;
+}
+
+.admidio-card {
+    background-color: $card-bg;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    height: 95%;
+}
+
+.admidio-card li {
+    padding-left: 0px;
+    padding-right: 0px;
+    background-color: $card-bg;
+}
+
+
+
+/***********************************/
+/* Nav-Bars */
+/***********************************/
+
+.navbar button {
+    margin-bottom: 0px;
+}
+
+.navbar label {
+    margin-right: 10px;
+}
+
+.navbar-filter {
+    background-color: $card-cap-bg;
+    margin-bottom: 15px;
+}
+
+.navbar-filter .form-group {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+/***********************************/
+/* Mark mandatory fields */
+/***********************************/
+.admidio-form-group-required label:after,
+.admidio-form-required-notice span:after {
+    font-family: "Font Awesome 5 Free";
+    font-size: 6pt;
+    content: "\f111";
+    color: #d91515;
+    white-space: nowrap;
+    vertical-align: super;
+    margin-left: 3px;
+}
+
+.admidio-form-required-notice {
+    font-size: 9pt;
+    margin-top: 5px;
+    margin-bottom: -10px;
+    text-align: right;
+    width: 100%;
+    display: inline-block;
+    max-width: 1000px;
+}
+
+/***********************************/
+/* Forms */
+/***********************************/
+
+form {
+    max-width: 1000px;
+}
+
+input[type=checkbox] {
+    margin-right: 10px;
+}
+
+@media (min-width: 768px) {
+    .offset-sm-3.btn {
+        margin-left: 25.5%;
+    }
+
+    .form-control-small {
+        width: 100%;
+    }
+}
+
+.form-inline div {
+    padding-right: 15px;
+}
+
+.form-inline label {
+    padding-right: 5px;
+}
+
+.form-control-static {
+    margin-bottom: 0px;
+}
+
+.form-horizontal {
+    margin-bottom: 15px;
+}
+
+.radio-inline {
+    margin-right: 15px;
+}
+
+input[data-provide=datepicker], input[data-provide=datepicker-birthday] {
+    width: 200px;
+}
+
+.datetime-date-control {
+    display: inline;
+}
+
+.datetime-time-control {
+    width: 100px !important;
+    margin-left: 20px;
+}
+
+.dropdown-menu .btn {
+    text-align: left;
+}
+
+.btn > i {
+    padding-right: 5px;
+}
+
+.admidio-info-icon {
+    margin-left: 8px;
+}
+
+.admidio-album-thumbnail {
+    margin-bottom: 1rem;
+    align-self: center;
+}

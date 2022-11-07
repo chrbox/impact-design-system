@@ -1,0 +1,42 @@
+{foreach $gMenu as $menuNode}
+    {if $menuNode->getTextId() == 'admidio-menu-page-functions'}
+        {if count($menuNode->getEntries()) > 0}
+        <!-- FAB Function Menu -->
+        {if count($menuNode->getEntries()) == 0}
+        <ul class="mfb-component--br data-mfb-toggle="hover" data-mfb-state="closed">
+            {foreach $menuNode->getEntries() as $entry}
+            
+                <li class="mfb-component__button--child">
+                <a id="{$entry['men_name_intern']}" href="{$entry['men_url']}" data-mfb-label="{$entry['men_name']}">
+                    <i class="mfb-component__child-icon fas {$entry['men_icon']}"></i>
+                </a>
+                </li>
+         
+            {/foreach}
+        </ul>
+        {else}
+        <ul class="mfb-component--br mfb-slidein" data-mfb-toggle="hover" data-mfb-state="closed">
+            <li class="mfb-component__wrap">
+            <!-- the main menu button -->
+            <a href="#" data-mfb-label="{$menuNode->getName()}" class="mfb-component__button--main">
+                <!-- the main button icon visibile by default -->
+                <i class="mfb-component__main-icon--resting fas fa-ellipsis-v"></i>
+                <!-- the main button icon visibile when the user is hovering/interacting with the menu -->
+                <i class="mfb-component__main-icon--active fas fa-ellipsis-v"></i>
+            </a>
+            <ul class="mfb-component__list">
+                <!-- a child button, repeat as many times as needed -->
+                {foreach $menuNode->getEntries() as $entry}
+                    <li class="mfb-component__button--child">
+                    <a id="{$entry['men_name_intern']}" href="{$entry['men_url']}" data-mfb-label="{$entry['men_name']}">
+                        <i class="mfb-component__child-icon fas {$entry['men_icon']}"></i>
+                    </a>
+                    </li>
+                {/foreach}   
+            </ul>
+            </li>
+        </ul>
+        {/if}
+        {/if}
+    {/if} 
+{/foreach}

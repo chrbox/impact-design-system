@@ -9,12 +9,12 @@
 		cursor: pointer;
 
 		&:after {
-			content: "\ea0f";
+			content: "\f067";
 			position: absolute;
 			right: 1.5rem;
 			top: 50%;
 			transform: translateY(-50%);
-			font: normal normal normal 14px/1 NucleoIcons;
+			font: normal normal normal 14px/1 "Font Awesome 5 Free";
             line-height: 0;
             @include transition($transition-cubic-bezier);
 		}
@@ -22,13 +22,14 @@
 
 	.card-header[aria-expanded="false"] {
 		&:after {
-			content: "\ea0f";
+			content: "\f067";
 		}
 	}
 
 	.card-header[aria-expanded="true"] {
 		&:after {
 			transform: rotate(180deg);
+			content: "\f068"
 		}
 
 		.heading {

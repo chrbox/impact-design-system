@@ -23,6 +23,13 @@
             top: 1px;
             animation: bounce .6s cubic-bezier(0.6, -0.28, 0.74, 0.05) infinite;
         }
+
+        .loader-animated-logo {
+            animation-name: spin3D;
+            animation-duration: 1.5s;
+            animation-iteration-count: 1;
+            animation-timing-function: ease-in-out;
+        }
     }
 }
 
@@ -31,3 +38,8 @@
     50%  { transform: translateY(-3px); }
     100% { transform: translateY(0); }
 }
+
+@keyframes spin3D {
+    from { transform: rotateZ(0deg) }
+    to { transform: rotateZ(360deg) }
+  }
